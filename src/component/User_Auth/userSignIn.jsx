@@ -1,78 +1,116 @@
-import React, { useEffect, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaXmark } from "react-icons/fa6";
 
-
 const UserSignIn = () => {
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
 
-    const navigate = useNavigate();
-    const [show, setShow] = useState(false);
+  useEffect(() => {
+    setTimeout(() => setShow(true), 100);
+  }, []);
 
-    useEffect(() => {
-        setTimeout(() => setShow(true), 100);
-    }, []);
-
-    let handleClose = (e) => {
-        if (e.target.id === 'overLay') {
-            setShow(false);
-            setTimeout(() => navigate("/"), 300);
-        }
-
+  const handleClose = (e) => {
+    if (e.target.id === "overlay") {
+      setShow(false);
+      setTimeout(() => navigate("/"), 300);
     }
+  };
 
-    const handleCloseIcon = () => {
-        setShow(false);
-        setTimeout(() => navigate("/"), 300);
-    };
+  const handleCloseIcon = () => {
+    setShow(false);
+    setTimeout(() => navigate("/"), 300);
+  };
 
-
-
-    return (
-        <div
-            id='overLay'
-            onClick={handleClose}
-            className={`fixed inset-0 bg-black/30 flex justify-center items-center transition-opacity duration-300 `} >
-
-
-            <div className={`transform w-[40%] p-[30px] bg-white rounded shadow-[0px_7px_0px_0px_#303f9fc2]
-                   transition-all duration-300 ease-in-out
-                   ${show ? "scale-100 opacity-100" : "scale-0 opacity-0"}`}>
-
-                <div className="flex justify-end">
-                    <FaXmark onClick={handleCloseIcon} className="text-red-600 text-2xl cursor-pointer" />
-                </div>
-
-                <h1 className=" text-[22px] font-semibold">Sign in to</h1>
-                <span className="capitalize text-[16px] font-normal">Room renting system</span>
-
-
-                <div className='mt-6'>
-                    <label className='mb-1 block capitalize' htmlFor="email">email</label>
-                    <input type="email"
-                        className='border w-full px-2 py-2 rounded'
-                        placeholder='Your@gmial.com'
-
-                    />
-                </div>
-                <div className='mt-6'>
-                    <label className='mb-1 block capitalize' htmlFor="Password">Password</label>
-                    <input type="Password"
-                        className='border w-full px-2 py-2 rounded'
-                        placeholder='Password'
-                    />
-                </div>
-
-                <button className='mt-6 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700'>Sign in</button>
-
-                <p className=' text-[13px] font-normal text-slate-600 mt-3'>Need an account? <NavLink to={'/Sign-Up'} className='text-[14px] text-blue-800 underline'>Sign Up</NavLink> </p>
-                <p className='text-[13px] font-normal    text-slate-600'>Forgot your password? <span className='text-[14px] text-blue-800 underline'>Reset it</span> </p>
-            </div>
-
+  return (
+    <div
+      id="overlay"
+      onClick={handleClose}
+      className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-blue-50/30 via-white to-indigo-50 transition-all duration-300"
+    >
+      <div
+        className={`relative w-[90%] sm:w-[70%] md:w-[45%] lg:w-[30%] p-8 bg-white/80 backdrop-blur-md border border-gray-200 rounded-3xl shadow-lg transition-all duration-500 transform ${
+          show ? "scale-100 opacity-100" : "scale-0 opacity-0"
+        }`}
+      >
+        {/* Close Button */}
+        <div className="absolute top-4 right-4">
+          <FaXmark
+            onClick={handleCloseIcon}
+            className="text-gray-500 text-2xl cursor-pointer hover:text-red-500 "
+          />
         </div>
-    )
-}
 
-export default UserSignIn
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-800">Welcome Back 👋</h1>
+          <p className="text-gray-500 text-sm mt-2">
+            Sign in to continue to <span className="font-semibold text-indigo-600">Room Rento</span>
+          </p>
+        </div>
 
+        {/* Form */}
+        <form className="space-y-5">
+          {/* Email */}
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email address
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="you@example.com"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none text-gray-800"
+            />
+          </div>
 
+          {/* Password */}
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              placeholder="••••••••"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none text-gray-800"
+            />
+          </div>
 
+          {/* Button */}
+          <button
+            type="button"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg shadow-md transition duration-200"
+          >
+            Sign In
+          </button>
+        </form>
+
+        {/* Divider */}
+        <div className="flex items-center justify-center my-6">
+          <div className="w-1/4 h-[1px] bg-gray-300"></div>
+          <p className="text-gray-400 text-xs mx-2">OR</p>
+          <div className="w-1/4 h-[1px] bg-gray-300"></div>
+        </div>
+
+        {/* Links */}
+        <div className="text-center text-sm text-gray-600">
+          <p>
+            Need an account?{" "}
+            <NavLink to="/Sign-Up" className="text-indigo-600 font-medium hover:underline">
+              Sign Up
+            </NavLink>
+          </p>
+          <p className="mt-1">
+            Forgot password?{" "}
+            <span className="text-indigo-600 font-medium hover:underline cursor-pointer">
+              Reset it
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default UserSignIn;

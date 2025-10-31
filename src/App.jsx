@@ -17,8 +17,9 @@ function App() {
         </div>
 
         {/* Right panel for child routes */}
-        <div className="bg-green-100 w-[85%] p-4">
+        <div className=" w-[85%] p-4">
           <Outlet />
+          
         </div>
       </div>
     </>
@@ -26,3 +27,5 @@ function App() {
 }
 
 export default App;
+
+
