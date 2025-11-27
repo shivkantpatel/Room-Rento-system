@@ -1,11 +1,17 @@
-import React from 'react'
-import imagePng from '../../assets/image.png'
+import React from "react";
+import imagePng from "../../../public/image.png";
+
 function NavLogo() {
   return (
-    <div >
-      <img className='w-[60px] h-full' src={imagePng} alt="loading..." />
+    <div className="flex items-center gap-2 cursor-pointer">
+      <img
+        src={imagePng}
+        alt="Room Rento Logo"
+        className="w-[120px] h-auto object-contain select-none"
+        loading="lazy"
+      />
     </div>
-  )
+  );
 }
 
-export default NavLogo
+export default NavLogo;

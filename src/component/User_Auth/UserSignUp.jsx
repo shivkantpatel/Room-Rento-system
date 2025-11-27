@@ -1,10 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaXmark } from "react-icons/fa6";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+
 
 const UserSignUp = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     setTimeout(() => setShow(true), 100);
@@ -22,6 +33,45 @@ const UserSignUp = () => {
     setTimeout(() => navigate("/"), 300);
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      // Make the POST request to your backend API
+      const response = await axios.post("http://localhost:5400/Sign-Up", formData);
+
+      if (response.status === 201) {
+
+        console.log();
+        toast.success(response.data.message, {
+          onClose: () => navigate("/Sign-In")
+        });
+
+
+        // Successful signup
+        setShow(false);
+       
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Something went wrong!");
+      setError("Something went wrong. Please try again later.");
+    } finally {
+
+    
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       id="overlay"
@@ -36,6 +86,11 @@ const UserSignUp = () => {
         p-8 transition-all duration-500 ease-in-out 
         ${show ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
       >
+
+        {/*Toast success add*/}
+
+        
+
         {/* Close Button */}
         <button
           onClick={handleCloseIcon}
@@ -56,7 +111,7 @@ const UserSignUp = () => {
         </div>
 
         {/* Form */}
-        <form className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label htmlFor="name" className="block text-sm text-gray-600 mb-1">
               Full Name
@@ -64,6 +119,9 @@ const UserSignUp = () => {
             <input
               id="name"
               type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               placeholder="John Doe"
               className="w-full px-4 py-2.5 rounded-xl border border-gray-300 
               bg-white/70 focus:ring-2 focus:ring-indigo-400 outline-none
@@ -78,6 +136,9 @@ const UserSignUp = () => {
             <input
               id="email"
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="you@example.com"
               className="w-full px-4 py-2.5 rounded-xl border border-gray-300 
               bg-white/70 focus:ring-2 focus:ring-indigo-400 outline-none
@@ -92,6 +153,9 @@ const UserSignUp = () => {
             <input
               id="password"
               type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               maxLength={10}
               placeholder="••••••••"
               className="w-full px-4 py-2.5 rounded-xl border border-gray-300 
@@ -101,13 +165,16 @@ const UserSignUp = () => {
             <p className="text-xs text-gray-400 mt-1">Max 10 characters</p>
           </div>
 
+          {error && <p className="text-red-500 text-center">{error}</p>}
+
           <button
             type="submit"
             className="w-full bg-indigo-500 hover:bg-indigo-600 text-white 
             font-semibold py-2.5 rounded-xl shadow-md transition-all duration-300
             hover:shadow-lg"
+            disabled={loading}
           >
-            Sign Up
+            {loading ? "Signing Up..." : "Sign Up"}
           </button>
         </form>
 
